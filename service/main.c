@@ -3,8 +3,14 @@
 #include <unistd.h>
 #include "zhelpers.h"
 #include <time.h>
-
+#include <stdbool.h>
 void * context; //Global context, because you only need one !
+
+bool StartsWith(const char *a, const char *b)
+{
+   if(strncmp(a, b, strlen(b)) == 0) return 1;
+   return 0;
+}
 
 int main( int argc, char * argv[] )
 {
@@ -16,12 +22,15 @@ int main( int argc, char * argv[] )
     int hours, minutes, seconds, day, month, year;
 
     char s[] = "gettime>";
+    char s2[] = "sterrebeeld>";
     char c[128];
+
+    bool error = true ;
 
     // connect the sub socket and declare the topic you want to subscribe to
     zmq_connect( sub, "tcp://benternet.pxl-ea-ict.be:24042" );
     zmq_setsockopt (sub, ZMQ_SUBSCRIBE, s, strlen(s));
-
+    zmq_setsockopt (sub, ZMQ_SUBSCRIBE, s2, strlen(s2));
 
     // connect the pusher socket
     void * pusher   = zmq_socket( context, ZMQ_PUSH );
@@ -59,6 +68,8 @@ int main( int argc, char * argv[] )
                sprintf (c, "givetime>Greenwich mean time is: %02d:%02d:%02d\n", hours, minutes, seconds);
                printf("%s", c);
                zmq_send( pusher, c, strlen(c), 0 );
+
+               error = false;
            }
 
            // logic to handle all city requests (city's listed in wikipedia: https://en.wikipedia.org/wiki/List_of_UTC_time_offsets)
@@ -104,6 +115,7 @@ int main( int argc, char * argv[] )
                sprintf (c, "givetime>time in %s is: %02d:%02d:%02d", city, hours + 11, minutes, seconds);
                printf("%s", c);
                zmq_send( pusher, c, strlen(c), 0 );
+               error = false;
            }
 
            // UTC +10:00
@@ -142,6 +154,7 @@ int main( int argc, char * argv[] )
                sprintf (c, "givetime>time in %s is: %02d:%02d:%02d", city, hours + 9, minutes, seconds);
                printf("%s", c);
                zmq_send( pusher, c, strlen(c), 0 );
+               error = false;
            }
 
            // UTC +09:00
@@ -177,6 +190,7 @@ int main( int argc, char * argv[] )
                sprintf (c, "givetime>time in %s is: %02d:%02d:%02d", city, hours + 8, minutes, seconds);
                printf("%s", c);
                zmq_send( pusher, c, strlen(c), 0 );
+               error = false;
            }
 
            // UTC +08:00
@@ -209,6 +223,7 @@ int main( int argc, char * argv[] )
                sprintf (c, "givetime>time in %s is: %02d:%02d:%02d", city, hours + 7, minutes, seconds);
                printf("%s", c);
                zmq_send( pusher, c, strlen(c), 0 );
+               error = false;
            }
 
            // UTC +07:00
@@ -238,6 +253,7 @@ int main( int argc, char * argv[] )
                sprintf (c, "givetime>time in %s is: %02d:%02d:%02d", city, hours + 6, minutes, seconds);
                printf("%s", c);
                zmq_send( pusher, c, strlen(c), 0 );
+               error = false;
            }
 
            // UTC +06:00
@@ -264,6 +280,7 @@ int main( int argc, char * argv[] )
                sprintf (c, "givetime>time in %s is: %02d:%02d:%02d", city, hours + 5, minutes, seconds);
                printf("%s", c);
                zmq_send( pusher, c, strlen(c), 0 );
+               error = false;
            }
 
            // UTC +05:00
@@ -287,6 +304,7 @@ int main( int argc, char * argv[] )
                sprintf (c, "givetime>time in %s is: %02d:%02d:%02d", city, hours + 4, minutes, seconds);
                printf("%s", c);
                zmq_send( pusher, c, strlen(c), 0 );
+               error = false;
            }
 
            // UTC +04:00
@@ -307,6 +325,7 @@ int main( int argc, char * argv[] )
                sprintf (c, "givetime>time in %s is: %02d:%02d:%02d", city, hours + 3, minutes, seconds);
                printf("%s", c);
                zmq_send( pusher, c, strlen(c), 0 );
+               error = false;
            }
 
            // UTC +03:00
@@ -324,6 +343,7 @@ int main( int argc, char * argv[] )
                sprintf (c, "givetime>time in %s is: %02d:%02d:%02d", city, hours + 2, minutes, seconds);
                printf("%s", c);
                zmq_send( pusher, c, strlen(c), 0 );
+               error = false;
            }
 
            // UTC +02:00
@@ -338,6 +358,7 @@ int main( int argc, char * argv[] )
                sprintf (c, "givetime>time in %s is: %02d:%02d:%02d", city, hours + 1, minutes, seconds);
                printf("%s", c);
                zmq_send( pusher, c, strlen(c), 0 );
+               error = false;
            }
 
            // UTC +01:00
@@ -349,6 +370,7 @@ int main( int argc, char * argv[] )
                sprintf (c, "givetime>time in %s is: %02d:%02d:%02d", city, hours, minutes, seconds);
                printf("%s", c);
                zmq_send( pusher, c, strlen(c), 0 );
+               error = false;
            }
 
            // UTC +00:00
@@ -363,6 +385,7 @@ int main( int argc, char * argv[] )
                sprintf (c, "givetime>time in %s is: %02d:%02d:%02d", city, hours - 1, minutes, seconds);
                printf("%s", c);
                zmq_send( pusher, c, strlen(c), 0 );
+               error = false;
            }
 
 
@@ -381,6 +404,7 @@ int main( int argc, char * argv[] )
                sprintf (c, "givetime>time in %s is: %02d:%02d:%02d", city, hours - 2, minutes, seconds);
                printf("%s", c);
                zmq_send( pusher, c, strlen(c), 0 );
+               error = false;
            }
 
            // UTC -04:00
@@ -406,6 +430,7 @@ int main( int argc, char * argv[] )
                sprintf (c, "givetime>time in %s is: %02d:%02d:%02d", city, hours - 3, minutes, seconds);
                printf("%s", c);
                zmq_send( pusher, c, strlen(c), 0 );
+               error = false;
            }
 
            // UTC -05:00
@@ -434,6 +459,7 @@ int main( int argc, char * argv[] )
                sprintf (c, "givetime>time in %s is: %02d:%02d:%02d", city, hours - 4, minutes, seconds);
                printf("%s", c);
                zmq_send( pusher, c, strlen(c), 0 );
+               error = false;
            }
 
            // UTC -06:00
@@ -465,6 +491,7 @@ int main( int argc, char * argv[] )
                sprintf (c, "givetime>time in %s is: %02d:%02d:%02d", city, hours - 5, minutes, seconds);
                printf("%s", c);
                zmq_send( pusher, c, strlen(c), 0 );
+               error = false;
            }
 
            // UTC -07:00
@@ -498,6 +525,7 @@ int main( int argc, char * argv[] )
                sprintf (c, "givetime>time in %s is: %02d:%02d:%02d", city, hours - 6, minutes, seconds);
                printf("%s", c);
                zmq_send( pusher, c, strlen(c), 0 );
+               error = false;
            }
 
            // UTC -08:00
@@ -535,6 +563,7 @@ int main( int argc, char * argv[] )
                sprintf (c, "givetime>time in %s is: %02d:%02d:%02d", city, hours - 7, minutes, seconds);
                printf("%s", c);
                zmq_send( pusher, c, strlen(c), 0 );
+               error = false;
            }
 
            // UTC -09:00
@@ -575,6 +604,7 @@ int main( int argc, char * argv[] )
                sprintf (c, "givetime>time in %s is: %02d:%02d:%02d", city, hours - 8, minutes, seconds);
                printf("%s", c);
                zmq_send( pusher, c, strlen(c), 0 );
+               error = false;
            }
 
            // UTC -10:00
@@ -618,9 +648,43 @@ int main( int argc, char * argv[] )
                sprintf (c, "givetime>time in %s is: %02d:%02d:%02d", city, hours - 9, minutes, seconds);
                printf("%s", c);
                zmq_send( pusher, c, strlen(c), 0 );
+               error = false;
            }
+
+           // sterrebeeld
+           if(StartsWith(address, "sterrebeeld>")){
+               char * dag = strtok(address, ">");
+               dag = strtok(NULL, ">");
+
+               sprintf (c, "givetime>%s", dag);
+               printf("%s\n", c);
+               printf("gekanker\n");
+               zmq_send( pusher, c, strlen(c), 0 );
+               error = false;
+           }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+           if(error){
+               sprintf (c, "givetime>Er is een fout opgetreden, mogelijk hebt u een fout commando ingevoerd. Uw commando: %s", address);
+               printf("%s", c);
+               zmq_send( pusher, c, strlen(c), 0 );
+           }
+
            // Gtfo of my RAM ya bitch...
            free(address);
+           error = true;
     }
 
     printf("If you see this something got fucked up...\n");
