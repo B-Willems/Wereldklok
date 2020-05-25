@@ -6,6 +6,8 @@
 #include <stdbool.h>
 void * context; //Global context, because you only need one !
 
+// random ass comment for RC branch LULW
+
 bool StartsWith(const char *a, const char *b)
 {
    if(strncmp(a, b, strlen(b)) == 0) return 1;
