@@ -45,7 +45,7 @@ int main( int argc, char * argv[] )
 
            //  Read envelope with address
            char *address = s_recv(sub);
-
+           char * donotparse = address;
            // Print out message contents
            printf ("[%s]\n", address);
 
@@ -654,13 +654,120 @@ int main( int argc, char * argv[] )
            // sterrebeeld
            if(StartsWith(address, "sterrebeeld>")){
                char * dag = strtok(address, ">");
-               dag = strtok(NULL, ">");
+               char * maand;
+               char * sterrebeeld;
 
-               sprintf (c, "givetime>%s", dag);
-               printf("%s\n", c);
-               printf("gekanker\n");
-               zmq_send( pusher, c, strlen(c), 0 );
-               error = false;
+               dag = strtok(NULL, ">");
+               maand = strtok(NULL, ">");
+
+
+               int maandint = atoi(maand);
+               int dagint = atoi(dag);
+
+               if(maandint == 1){
+                   if(dagint <= 19){
+                       sterrebeeld = "Steenbok";
+                   }else{
+                       sterrebeeld = "Waterman";
+                   }
+
+               }
+
+               if(maandint == 2){
+                   if(dagint <= 19){
+                       sterrebeeld = "Waterman";
+                   }else{
+                       sterrebeeld = "Vissen";
+                   }
+               }
+
+               if(maandint == 3){
+                   if(dagint <= 20){
+                       sterrebeeld = "Vissen";
+                   }else{
+                       sterrebeeld = "Ram";
+                   }
+               }
+
+               if(maandint == 4){
+                   if(dagint <= 20){
+                       sterrebeeld = "Ram";
+                   }else{
+                       sterrebeeld = "Stier";
+                   }
+               }
+
+               if(maandint == 5){
+                   if(dagint <= 20){
+                       sterrebeeld = "Stier";
+                   }else{
+                       sterrebeeld = "Tweeling";
+                   }
+               }
+
+               if(maandint == 6){
+                   if(dagint <= 21){
+                       sterrebeeld = "Tweeling";
+                   }else{
+                       sterrebeeld = "Kreeft";
+                   }
+               }
+
+               if(maandint == 7){
+                   if(dagint <= 22){
+                       sterrebeeld = "Kreeft";
+                   }else{
+                       sterrebeeld = "Leeuw";
+                   }
+               }
+
+               if(maandint == 8){
+                   if(dagint <= 23){
+                       sterrebeeld = "Leeuw";
+                   }else{
+                       sterrebeeld = "Maagd";
+                   }
+               }
+
+               if(maandint == 9){
+                   if(dagint <= 23){
+                       sterrebeeld = "Maagd";
+                   }else{
+                       sterrebeeld = "Weegschaal";
+                   }
+               }
+
+               if(maandint == 10){
+                   if(dagint <= 23){
+                       sterrebeeld = "Weegschaal";
+                   }else{
+                       sterrebeeld = "Schorpioen";
+                   }
+               }
+
+               if(maandint == 11){
+                   if(dagint <= 22){
+                       sterrebeeld = "Schorpioen";
+                   }else{
+                       sterrebeeld = "Boogschutter";
+                   }
+               }
+
+               if(maandint == 12){
+                   if(dagint <= 21){
+                       sterrebeeld = "Boogschutter";
+                   }else{
+                       sterrebeeld = "Steenbok";
+                   }
+               }
+
+               if(strlen(sterrebeeld)>1){
+                   sprintf (c, "givesterrebeeld>uw sterrebeeld is %s", sterrebeeld);
+                   printf("%s\n", c);
+                   zmq_send( pusher, c, strlen(c), 0 );
+                   error = false;
+               }
+
            }
 
 
@@ -677,7 +784,7 @@ int main( int argc, char * argv[] )
 
 
            if(error){
-               sprintf (c, "givetime>Er is een fout opgetreden, mogelijk hebt u een fout commando ingevoerd. Uw commando: %s", address);
+               sprintf (c, "givetime>Er is een fout opgetreden, mogelijk hebt u een fout commando ingevoerd. Uw commando: %s", donotparse);
                printf("%s", c);
                zmq_send( pusher, c, strlen(c), 0 );
            }

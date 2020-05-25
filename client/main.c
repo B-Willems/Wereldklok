@@ -13,11 +13,12 @@ int main( int argc, char * argv[] )
 
 
     char s[] = "givetime>";
-
+    char s2[] = "givesterrebeeld>";
 
     // connect the sub socket and declare the topic you want to subscribe to
     zmq_connect( sub, "tcp://benternet.pxl-ea-ict.be:24042" );
     zmq_setsockopt (sub, ZMQ_SUBSCRIBE, s, strlen(s));
+    zmq_setsockopt (sub, ZMQ_SUBSCRIBE, s2, strlen(s2));
 
 
     // declare the subscriber and the pusher as ZMQ_SUB and ZMQ_PUSH;
