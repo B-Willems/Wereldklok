@@ -22,3 +22,7 @@ Voorbeeld: "sterrebeeld>5>1" krijgt als antwoord: "givesterrebeeld>uw sterrebeel
 ### error message
 
 Als u een foutief commando doorgeeft, of de service kan uw commando niet verwerken, dan zal u op het adres "givetime>" een foutmelding krijgen. Achteraan wordt dan weergegeven hoe de service jouw commando heeft aangekregen. Zo kan je de fout eruithalen en achterhalen hoe het juiste commando gestuurd moet worden.
+
+### schematische voorstelling
+
+![alt text](https://github.com/B-Willems/Wereldklok/blob/master/uitleg_wereldklok.png "schematische voorstelling")
