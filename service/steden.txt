@@ -2,3 +2,12 @@ Gondor,+4:00
 Rohan,-8:00
 Hogwards,+12:00
 Bramcity,+0:00
+Computer,+0:00
+Computer,+0:00
+pluself,+11:00
+pluself,+11:00
+Bree,+2:00
+Bree,2:00
+Bree,+3:00
+Bree,+2:00
+Bree,+3:00

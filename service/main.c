@@ -704,9 +704,6 @@ int main( int argc, char * argv[] )
                array1 = false;
            }
 
-
-
-
 // -------------------------------------------------------------------------------------------------
            for(i=0;i<100;i++){
                if(strcmp(address, citiesplus0[i]) == 0){
@@ -716,7 +713,6 @@ int main( int argc, char * argv[] )
 
                }
            }
-
 
            // UTC +00:00
            if(strcmp(address, "gettime>London") == 0 || strcmp(address, "gettime>Dublin") == 0 || strcmp(address, "gettime>Lisbon") == 0 || strcmp(address, "gettime>Abidjan") == 0 || strcmp(address, "gettime>Accra") == 0 || strcmp(address, "gettime>Dakar") == 0 ){
@@ -1124,13 +1120,16 @@ int main( int argc, char * argv[] )
                dag = strtok(NULL, ">");
                maand = strtok(NULL, ">");
                jaar = strtok(NULL, ">");
-                printf("%s  %s  %s\n", dag, maand, jaar);
+
+               printf("%s  %s  %s\n", dag, maand, jaar);
+
                int dagint = atoi(dag);
                int maandint = atoi(maand);
                int jaarint = atoi(jaar);
+
                struct tm ts;
 
-
+                printf("%d  %d  %d\n", dagint, maandint, jaarint);
                 ts.tm_mday = dagint;
                 ts.tm_mon = maandint - 1;
                 ts.tm_year = jaarint;
@@ -1142,7 +1141,7 @@ int main( int argc, char * argv[] )
 
                int weeknummer = (ts.tm_yday + 14 - (ts.tm_wday ? (ts.tm_wday - 1) : 6)) / 7;
 
-               sprintf(c, "giveweek>%d>%d", ts.tm_wday - 1, weeknummer);
+               sprintf(c, "giveweek>%d>%d", ts.tm_wday, weeknummer);
                printf("%s\n", c);
                zmq_send( pusher, c, strlen(c), 0);
                error = false;
