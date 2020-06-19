@@ -1,0 +1,4 @@
+Gondor,+4:00
+Rohan,-8:00
+Hogwards,+12:00
+Bramcity,+0:00
